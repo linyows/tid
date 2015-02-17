@@ -1,10 +1,6 @@
 RSpec.describe 'Tid' do
   describe 'ssh to docker container' do
     let(:ssh_to_docker_container) do
-      puts `pwd`
-      puts `whoami`
-      puts `ls -las`
-      puts `ls -las #{ENV['TID_BASE_PATH']}/`
       [
         "ssh root@#{ENV['TID_HOSTNAME']}",
         "-p #{ENV['TID_PORT']}",
