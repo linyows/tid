@@ -10,8 +10,9 @@ module Tid
 
       def cmd(str, env = {})
         env = default_env.merge(env)
+        show_cmd(str, env) if debug?
         out, err, status = Open3.capture3(env, str)
-        show_debuggings(str, env, out, err, status) if debug?
+        show_cmd_result(out, err, status) if debug?
         return out, err, status
       end
 
@@ -19,10 +20,15 @@ module Tid
         !!ENV['DEBUG']
       end
 
-      def show_debuggings(str, env, out, err, status)
-        puts "  $ #{str} (exit: #{status.exitstatus})".color(:blue)
+      def show_cmd(str, env)
+        puts "  # #{str} (env: #{status.exitstatus})".color(:blue)
+        env.each { |k,v| puts "    ENV['#{k}'] = #{v}" }
+      end
+
+      def show_cmd_result(out, err, status)
         puts "#{out}".gsub(/^(.*)/, '    \1').color(:green) unless out.empty?
         puts "#{err}".gsub(/^(.*)/, '    \1').color(:red) unless err.empty?
+        puts "    exit status: #{status.exitstatus}".color(:yellow)
       end
     end
   end
