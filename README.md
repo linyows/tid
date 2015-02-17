@@ -49,6 +49,13 @@ $ gem install tid
 Usage
 -----
 
+```sh
+$ tid init
+  create   spec/tid/Dockerfile
+  create   spec/tid/id_rsa
+  create   spec/tid/id_rsa.pub
+```
+
 example this.
 
 ### RSpec
@@ -57,19 +64,9 @@ spec_helper.rb:
 
 ```ruby
 RSpec.configure do |config|
-  config.expect_with :rspec do |expectations|
-    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
-  end
-
-  config.mock_with :rspec do |mocks|
-    mocks.verify_partial_doubles = true
-  end
-
+  ...
   config.include(Tid)
-  config.before(:all) do
-    Tid.bundle
-    Tid.prepare
-  end
+  config.before(:all) { Tid.prepare }
   config.after(:all) { Tid.clear }
 end
 ```
