@@ -9,6 +9,9 @@ build:
               docker version
               curl -s http://get.docker.io/ubuntu/ | sudo sh
               docker version
+        - script:
+            name: chmod private key
+            code: chmod 600 ./spec/tid/id_rsa
         - bundle-install
         - script:
              name: rspec
