@@ -43,7 +43,12 @@ module Tid
       end
 
       def up
-        Console.cmd 'boot2docker up && $(boot2docker shellinit)'
+        Console.cmd 'boot2docker up'
+        shellinit
+      end
+
+      def shellinit
+        Console.cmd '$(boot2docker shellinit)'
       end
     end
   end
