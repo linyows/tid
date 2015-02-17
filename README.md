@@ -63,6 +63,8 @@ example this.
 spec_helper.rb:
 
 ```ruby
+require 'tid'
+
 RSpec.configure do |config|
   ...
   config.include(Tid)
