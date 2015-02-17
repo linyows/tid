@@ -1,16 +1,28 @@
 module Tid
   module Boot2docker
     class << self
+      def env_keys
+        %w(
+          DOCKER_HOST
+          DOCKER_CERT_PATH
+          DOCKER_TLS_VERIFY
+        )
+      end
+
       def env
-        {
-          'DOCKER_HOST' => Boot2docker.docker_host,
-          'DOCKER_CERT_PATH' => Boot2docker.docker_cert_path,
-          'DOCKER_TLS_VERIFY' => Boot2docker.docker_tls_verify
-        }
+        @env ||= env!
+      end
+
+      def env!
+        out = `boot2docker shellinit 2>/dev/null`
+        env_keys.each.with_object({}) do |key, memo|
+          out.match(/#{key}=(.*)/)
+          memo[key] = $1.chomp
+        end
       end
 
       def prepare
-        Boot2docker.up unless running?
+        up unless running?
       end
 
       def status
@@ -30,25 +42,8 @@ module Tid
         out.to_s.chomp
       end
 
-      def docker_host
-        `echo $DOCKER_HOST`.chomp
-      end
-
-      def docker_cert_path
-        `echo $DOCKER_CERT_PATH`.chomp
-      end
-
-      def docker_tls_verify
-        `echo $DOCKER_TLS_VERIFY`.chomp
-      end
-
       def up
         Console.cmd 'boot2docker up'
-        shellinit
-      end
-
-      def shellinit
-        Console.cmd '$(boot2docker shellinit)'
       end
     end
   end

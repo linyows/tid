@@ -5,11 +5,7 @@ module Tid
   module Console
     class << self
       def default_env
-        @default_env ||= if Boot2docker.have?
-          Boot2docker.env
-        else
-          {}
-        end
+        Boot2docker.have? ? Boot2docker.env : {}
       end
 
       def cmd(str, env = {})
