@@ -26,8 +26,8 @@ module Tid
       end
 
       def show_cmd_result(out, err, status)
-        puts "#{out}".gsub(/^(.*)/, '    \1').color(:green) unless out.empty?
-        puts "#{err}".gsub(/^(.*)/, '    \1').color(:red) unless err.empty?
+        puts "#{out}".chomp.gsub(/^(.*)/, '    \1').color(:green) unless out.empty?
+        puts "#{err}".chomp.gsub(/^(.*)/, '    \1').color(:red) unless err.empty?
         puts "    exit status: #{status.exitstatus}".color(:yellow)
       end
     end
