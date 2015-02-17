@@ -21,7 +21,7 @@ module Tid
       end
 
       def show_cmd(str, env)
-        puts "  # #{str}".color(:blue)
+        puts "\n  # #{str}".color(:blue)
         env.each { |k,v| puts "    ENV['#{k}'] = #{v}" }
       end
 
