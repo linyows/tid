@@ -1,4 +1,4 @@
-module Tocker
+module Tid
   module Boot2docker
     class << self
       def env
@@ -14,7 +14,7 @@ module Tocker
       end
 
       def status
-        Console.cmd "boot2docker status"
+        Console.cmd 'boot2docker status'
       end
 
       def have?
@@ -26,7 +26,7 @@ module Tocker
       end
 
       def ip
-        out, _, _ = CommandHelper.cmd 'boot2docker ip'
+        out, _, _ = Console.cmd 'boot2docker ip'
         out.to_s.chomp
       end
 
@@ -43,7 +43,7 @@ module Tocker
       end
 
       def up
-        Console.cmd "boot2docker up && $(boot2docker shellinit)"
+        Console.cmd 'boot2docker up && $(boot2docker shellinit)'
       end
     end
   end

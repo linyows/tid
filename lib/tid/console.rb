@@ -1,12 +1,8 @@
 require 'open3'
 require 'rainbow/ext/string'
 
-module Tocker
+module Tid
   module Console
-    def cmd(str, env = {})
-      Console.cmd(str, env)
-    end
-
     class << self
       def default_env
         @default_env ||= if Boot2docker.have?
