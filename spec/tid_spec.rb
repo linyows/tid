@@ -5,6 +5,8 @@ RSpec.describe 'Tid' do
         "ssh root@#{ENV['TID_HOSTNAME']}",
         "-p #{ENV['TID_PORT']}",
         "-i #{ENV['TID_BASE_PATH']}/id_rsa",
+        "-o StrictHostKeyChecking=no",
+        "-o UserKnownHostsFile=/dev/null",
         "'echo yo'"
       ].join(' ')
     end
