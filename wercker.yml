@@ -1,15 +1,15 @@
 box: wercker-labs/docker
 build:
-  steps:
-    - install-packages:
-      packages: build-essential ruby2.0 ruby2.0-dev bundler
-    - script:
-        name: install latest docker
-        code: |
-          docker version
-          curl -s http://get.docker.io/ubuntu/ | sudo sh
-          docker version
-    - bundle-install
-    - script:
-       name: rspec
-       code: bundle exec rspec
+    steps:
+        - install-packages:
+            packages: build-essential ruby2.0 ruby2.0-dev bundler
+        - script:
+            name: install latest docker
+            code: |
+              docker version
+              curl -s http://get.docker.io/ubuntu/ | sudo sh
+              docker version
+        - bundle-install
+        - script:
+             name: rspec
+             code: bundle exec rspec
