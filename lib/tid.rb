@@ -13,7 +13,7 @@ module Tid
       Boot2docker.prepare if Boot2docker.have?
       Docker.build
       Docker.run
-      self.set_env
+      self.env!
     end
 
     def clear
@@ -38,9 +38,19 @@ module Tid
       ENV['TID_BASE_PATH'] ||= './spec/tid'
     end
 
-    def set_env
-      ENV['TID_HOSTNAME'] ||= "#{Docker.hostname}"
-      ENV['TID_PORT'] ||= "#{Docker.container_ssh_port}"
+    def env
+      @env
+    end
+
+    def env!
+      ENV['TID_HOSTNAME'] = h = Docker.hostname
+      ENV['TID_PORT'] = p = Docker.container_ssh_port
+
+      @env = {
+        'TID_HOSTNAME' => h,
+        'TID_PORT' => p,
+        'TID_BASE_PATH' => base_path
+      }
     end
   end
 end
