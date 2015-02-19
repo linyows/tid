@@ -25,8 +25,7 @@ module Tid
     def bundle(options = [])
       default_options = [
         '--gemfile',
-        "#{base_path}/Gemfile",
-        '--quiet'
+        "#{base_path}/Gemfile"
       ]
 
       Bundler.with_clean_env do
