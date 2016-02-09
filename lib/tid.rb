@@ -1,5 +1,5 @@
 require 'tid/version'
-require 'tid/boot2docker'
+require 'tid/docker-machine'
 require 'tid/docker'
 require 'tid/console'
 
@@ -10,7 +10,7 @@ module Tid
 
   class << self
     def prepare
-      Boot2docker.prepare if Boot2docker.have?
+      DockerMachine.prepare if DockerMachine.exists?
       Docker.build
       Docker.run
       self.env!

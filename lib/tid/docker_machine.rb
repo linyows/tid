@@ -1,5 +1,5 @@
 module Tid
-  module Boot2docker
+  module DockerMachine
     class << self
       def env_keys
         %w(
@@ -13,8 +13,12 @@ module Tid
         @env ||= env!
       end
 
+      def machine_name
+        ENV['DOCKER_MACHINE_NAME'] ||= 'dev'
+      end
+
       def env!
-        out = `boot2docker shellinit 2>/dev/null`
+        out = `docker-machine env #{machine_name}`
         env_keys.each.with_object({}) do |key, memo|
           out.match(/#{key}=(.*)/)
           memo[key] = $1.chomp
@@ -26,24 +30,24 @@ module Tid
       end
 
       def status
-        Console.cmd 'boot2docker status'
+        Console.cmd "docker-machine status #{machine_name}"
       end
 
-      def have?
-        !`which boot2docker`.empty?
+      def exists?
+        !`which docker-machine`.empty?
       end
 
       def running?
-        status == 'running'
+        status.downcase == 'running'
       end
 
       def ip
-        out, _, _ = Console.cmd 'boot2docker ip'
+        out, _, _ = Console.cmd "docker-machine ip #{machine_name}"
         out.to_s.chomp
       end
 
       def up
-        Console.cmd 'boot2docker up'
+        Console.cmd "docker-machine create -d virtualbox #{machine_name}"
       end
     end
   end
