@@ -22,7 +22,7 @@ mac:
 
 ```sh
 $ brew update
-$ brew install docker boot2docker
+$ brew install docker docker-machine
 ```
 
 Installation
