@@ -1,18 +1,34 @@
 box: wercker-labs/docker
 build:
     steps:
+        - script:
+            name: install rvm
+            code: |
+              sudo apt-get update -y
+              sudo apt-get install git zlib1g-dev libreadline-dev libqtwebkit-dev curl -y
+              sudo apt-get remove ruby1.9.1
+              gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+              curl -sSL https://get.rvm.io | bash -s stable
+              echo "bundler -v~>1.9.0" > $HOME/.rvm/gemsets/global.gems
+              source $HOME/.rvm/scripts/rvm
+              rvm install 2.3.0
+              rvm --default use 2.3.0
+              echo "gem: --no-rdoc --no-ri" >> $HOME/.gemrc
+              echo "RAILS_ENV=test" | sudo tee -a /etc/environment
+              echo "RACK_ENV=test" | sudo tee -a /etc/environment
         - install-packages:
-            packages: build-essential ruby2.0 ruby2.0-dev bundler
+            packages: build-essential curl
         - script:
             name: install latest docker
             code: |
-              docker version
+              docker -v
               curl -s http://get.docker.io/ubuntu/ | sudo sh
               docker version
+              docker info
         - script:
             name: chmod private key
             code: chmod 600 ./spec/tid/id_rsa
         - bundle-install
         - script:
-             name: rspec
-             code: bundle exec rspec
+            name: rspec
+            code: bundle exec rspec
