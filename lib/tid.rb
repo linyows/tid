@@ -1,5 +1,5 @@
 require 'tid/version'
-require 'tid/docker-machine'
+require 'tid/docker_machine'
 require 'tid/docker'
 require 'tid/console'
 

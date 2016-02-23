@@ -5,8 +5,8 @@ module Tid
   module Console
     class << self
       def default_env
-        env = if Boot2docker.have?
-            Boot2docker.env
+        env = if DockerMachine.exists?
+            DockerMachine.env
           else
             {}
           end

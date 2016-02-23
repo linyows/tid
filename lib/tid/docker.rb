@@ -22,7 +22,7 @@ module Tid
       end
 
       def hostname
-        Boot2docker.have? ? Boot2docker.ip : 'localhost'
+        DockerMachine.exists? ? DockerMachine.ip : 'localhost'
       end
 
       def image_name
